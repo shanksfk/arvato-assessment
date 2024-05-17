@@ -24,6 +24,8 @@
     4+3-             INVALID
 
 """
+import unittest
+
 class Stack:
     def __init__(self):
         self.items = []
@@ -120,24 +122,21 @@ def evaluate_input(expression):
         return "INVALID"
 
 
-if __name__ == "__main__":
-    tests = [
-        ("5", 5),
-        ("10+3*2-1", 15),
-        ("10*2^4^2", 2560),
-        ("5*5-50", -25),
-        ("5*4/(4-2)", 10),
-        ("4+3-", "INVALID")
-    ]
+class TestArithmeticExpressionEvaluation(unittest.TestCase):
+    def test_single_digit(self):
+        self.assertEqual(evaluate_input("5"), 5)
 
-    for test_expr, expected_result in tests:
-        result = evaluate_input(test_expr)
-        print(f"Expression: {test_expr} - Result: {result} - Expected: {expected_result} - Pass: {result == expected_result}")
+    def test_basic_operations(self):
+        self.assertEqual(evaluate_input("10+3*2-1"), 15)
+        self.assertEqual(evaluate_input("5*5-50"), -25)
+        self.assertEqual(evaluate_input("5*4/(4-2)"), 10)
+
+    def test_exponentiation(self):
+        self.assertEqual(evaluate_input("10*2^4^2"), 2560)
+
+    def test_invalid_expression(self):
+        self.assertEqual(evaluate_input("4+3-"), "INVALID")
 
 
-
-
-# if __name__ == "__main__":
-#     expression = input("Enter arithmetic expression: ")
-#     result = evaluate_input(expression)
-#     print(result)
+if __name__ == '__main__':
+    unittest.main()
